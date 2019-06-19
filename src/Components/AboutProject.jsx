@@ -3,10 +3,6 @@ import { Header } from 'semantic-ui-react'
 
 class AboutProject extends Component {
 
-  componentDidMount() {
-    this.props.sidebarVisibility()
-  }
-
   render() {
     return (
       <>

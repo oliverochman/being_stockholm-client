@@ -1,6 +1,9 @@
-import initialState from '../store/initialState'
+import animationReducer from './animationReducer';
+import { combineReducers } from 'redux';
 
-const rootReducer = (state = initialState) => {
-  return state
-}
+
+const rootReducer = combineReducers({
+  animation: animationReducer
+})
+
 export default rootReducer

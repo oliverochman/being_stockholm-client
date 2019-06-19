@@ -3,10 +3,6 @@ import { Header } from 'semantic-ui-react'
 
 class LogInSignUp extends Component {
 
-  componentDidMount() {
-    this.props.sidebarVisibility()
-  }
-
   render() {
     return (
       <>

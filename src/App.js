@@ -13,92 +13,30 @@ import { connect } from 'react-redux';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  handleAnimationChange = animation => () =>
-    this.setState(prevState => ({ animation, sidebarVisible: !prevState.sidebarVisible }))
-
-  sidebarVisibility = () => {
-    this.setState({ sidebarVisible: false })
-  }
-
-
   render() {
-  
-    const MyLogInSignUp = (props) => {
-      return (
-        <LogInSignUp
-          sidebarVisibility={this.sidebarVisibility}
-          {...props}
-        />
-      );
-    }
-
-    const MyAbout = (props) => {
-      return (
-        <AboutProject
-          sidebarVisibility={this.sidebarVisibility}
-          {...props}
-        />
-      );
-    }
-
-    const MyGetInTouch = (props) => {
-      return (
-        <GetInTouch
-          sidebarVisibility={this.sidebarVisibility}
-          {...props}
-        />
-      );
-    }
-
-    const MyPartners = (props) => {
-      return (
-        <Partners
-          sidebarVisibility={this.sidebarVisibility}
-          {...props}
-        />
-      );
-    }
-
-    const MyLegalInfo = (props) => {
-      return (
-        <LegalInfo
-          sidebarVisibility={this.sidebarVisibility}
-          {...props}
-        />
-      );
-    }
 
     return (
       <>
         <Sidebar.Pushable
           as={Container}
-          id='main-content'>
+          id='main-content'
+        >
 
           <Switch>
             <Route exact path='/' component={Map}></Route>
-            <Route exact path='/log-in' render={MyLogInSignUp}></Route>
-            <Route exact path='/about' render={MyAbout}></Route>
-            <Route exact path='/contact' render={MyGetInTouch}></Route>
-            <Route exact path='/partnerds' render={MyPartners}></Route>
-            <Route exact path='/legal-info' render={MyLegalInfo}></Route>
+            <Route exact path='/log-in' component={LogInSignUp}></Route>
+            <Route exact path='/about' component={AboutProject}></Route>
+            <Route exact path='/contact' component={GetInTouch}></Route>
+            <Route exact path='/partnerds' component={Partners}></Route>
+            <Route exact path='/legal-info' component={LegalInfo}></Route>
           </Switch>
 
-          <MenuSidebar visible={this.props.sidebarVisible} />
+          <MenuSidebar/>
         </Sidebar.Pushable>
-        <Footer handleAnimationChange={this.handleAnimationChange} />
+        <Footer/>
       </>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    state: state
-  }
-}
-
-export default connect(mapStateToProps)(App)
+export default connect()(App)

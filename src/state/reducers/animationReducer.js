@@ -8,9 +8,14 @@ const locationReducer = (state = initialState, action) => {
       return {
         sidebarVisible: !state.sidebarVisible
       }
+    case 'CREATE_IMAGE_POST':
+      return {
+        renderCreate: true
+      }
     default:
       return state
   }
+  
 }
 
 export default locationReducer

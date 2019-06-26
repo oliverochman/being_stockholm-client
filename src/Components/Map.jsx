@@ -10,21 +10,21 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 
 class Map extends Component {
-  static defaultProps = {
-    center: {
-      lat: 59.330651,
-      lng: 18.068562
-    },
-    zoom: 11
+  constructor(props) {
+    super(props)
+    this.state = {
+      openEntryPopup: false,
+      posts: [],
+      id: '',
+      published: [],
+      datapointClass: '',
+      center: {
+        lat: 59.330651,
+        lng: 18.068562
+      },
+      zoom: 11
+    };
   };
-
-  state = {
-    openEntryPopup: false,
-    posts: [],
-    id: '',
-    published: [],
-    datapointClass: ''
-  }
 
   closeModal = () => {
     this.setState({ openEntryPopup: false })
@@ -144,10 +144,14 @@ class Map extends Component {
           </div>
         </Popup>
 
+        <Popup modal open={this.props.renderCreate} position="right center">
+          <CreateImageEntry />
+        </Popup>
+
         <GoogleMapReact
           bootstrapURLKeys={{ key: process.env.REACT_APP_API_KEY_GOOGLE_MAPS }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
+          defaultCenter={this.state.center}
+          defaultZoom={this.state.zoom}
           options={{ styles: MapStyle }}>
 
           {this.state.published.map(post => (
@@ -170,7 +174,9 @@ class Map extends Component {
 const mapStateToProps = state => ({
   state: state,
   currentUser: state.reduxTokenAuth.currentUser,
-  sidebarVisible: state.animation.sidebarVisible
+  sidebarVisible: state.animation.sidebarVisible,
+  renderCreate: state.animation.renderCreate
+
 })
 
 export default connect(mapStateToProps)(Map);

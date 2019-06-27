@@ -63,7 +63,7 @@ class Login extends Component {
       )
     }
     return (
-      <Sidebar.Pushable as={Container} id="views-main-container-sidebar">
+      <Sidebar.Pushable as={Container} id="views-main-container-sidebar" onClick={this.props.sidebarVisible ? () => { this.props.dispatch({ type: 'CHANGE_VISIBILITY' }) } : () => { }}>
         <Container className="views-main-container"textAlign='center'>
 
           <Header className="views-main-header" as='h1'>
@@ -117,7 +117,8 @@ class Login extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.reduxTokenAuth.currentUser   
+    currentUser: state.reduxTokenAuth.currentUser, 
+    sidebarVisible: state.animation.sidebarVisible
   }
 }
 export default connect(mapStateToProps,{ signInUser })(Login)

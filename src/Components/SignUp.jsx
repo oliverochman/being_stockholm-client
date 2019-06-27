@@ -77,85 +77,96 @@ class SignUp extends Component {
       )
     }
     return (
+      <div id="NOTICE_ME"onClick={this.props.sidebarVisible ? () => { this.props.visibilityChangeHandler() } : () => { }}>
+
       <Sidebar.Pushable as={Container} id="views-main-container-sidebar">
-        <Container className="views-main-container"textAlign='center'>
+          <Container className="views-main-container"textAlign='center' >
+            <Header className="views-main-header" as='h1'>
+              Sign up
+            </Header>
+            {message}
+            <br></br>
 
-          <Header className="views-main-header" as='h1'>
-            Sign up
-          </Header>
-          {message}
-          <br></br>
+            <Form id="signup-form">
+              <Form.Input
+                id="email"
+                value={this.state.email}
+                onChange={this.onChangeHandler}
+                placeholder="Email"
+              />
+              <Form.Input
+                id="password"
+                type="password"
+                value={this.state.password}
+                onChange={this.onChangeHandler}
+                placeholder="Password"
+              />
+              <Form.Input
+                id="password_confirmation"
+                type="password"
+                value={this.state.password_confirmation}
+                onChange={this.onChangeHandler}
+                placeholder="Repeat password"
+              />
+            </Form>
 
-          <Form id="signup-form">
-            <Form.Input
-              id="email"
-              value={this.state.email}
-              onChange={this.onChangeHandler}
-              placeholder="Email"
-            />
-            <Form.Input
-              id="password"
-              type="password"
-              value={this.state.password}
-              onChange={this.onChangeHandler}
-              placeholder="Password"
-            />
-            <Form.Input
-              id="password_confirmation"
-              type="password"
-              value={this.state.password_confirmation}
-              onChange={this.onChangeHandler}
-              placeholder="Repeat password"
-            />
-          </Form>
+            <p
+            className='text'>
+            I am a</p>
 
-          <p
-          className='text'>
-          I am a</p>
-
-          <Button.Group
-            className='button-group'
-            basic
-          >
-            <Button
-              id='newbie'
-              active={activeItem === 'newbie'}
-              value={'newbie'}
-              onClick={this.handleChangeLevel}>
-              Newbie
-            </Button>
-            <Button
-              id='settled'
-              active={activeItem === 'settled'}
-              value={'settled'}
-              onClick={this.handleChangeLevel}>
-              Settled
+            <Button.Group
+              className='button-group'
+              basic
+            >
+              <Button
+                id='newbie'
+                active={activeItem === 'newbie'}
+                value={'newbie'}
+                onClick={this.handleChangeLevel}>
+                Newbie
               </Button>
-          </Button.Group>
-          <p
-          className='text'>
-          Stockholmer</p>
+              <Button
+                id='settled'
+                active={activeItem === 'settled'}
+                value={'settled'}
+                onClick={this.handleChangeLevel}>
+                Settled
+                </Button>
+            </Button.Group>
+            <p
+            className='text'>
+            Stockholmer</p>
 
 
-          <Container className="signup-text-container">
-            <p>
-            By signing up, I allow my posts to be used for the Being Stockholm map and website. It may be used by UrbanBeings for marketing purposes. Your personal information will not be displayed publicly or shared with any third parties.
-            </p>
+            <Container className="signup-text-container">
+              <p>
+              By signing up, I allow my posts to be used for the Being Stockholm map and website. It may be used by UrbanBeings for marketing purposes. Your personal information will not be displayed publicly or shared with any third parties.
+              </p>
+            </Container>
+
+            <Button className='submit-button' id="sign_up_button" onClick={this.createUser}>Sign up</Button>
+
           </Container>
-
-          <Button className='submit-button' id="sign_up_button" onClick={this.createUser}>Sign up</Button>
-
-        </Container>
       </Sidebar.Pushable>  
+      </div>
+
     )
   }
 }
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.reduxTokenAuth.currentUser
+    currentUser: state.reduxTokenAuth.currentUser,
+    sidebarVisible: state.animation.sidebarVisible
   }
+}
+
+const mapDispatchToProps = {
+  visibilityChangeHandler: () => ({
+    type: "CHANGE_VISIBILITY"
+  }),
+  registerUser
 }
 export default connect(
   mapStateToProps,
-  { registerUser },
+  mapDispatchToProps,
 )(SignUp)

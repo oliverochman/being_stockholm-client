@@ -35,12 +35,17 @@ class Map extends Component {
     this.axiosGetPublishedPosts()
   }
 
-  combineFunctions = () => {
-    this.props.dispatch({ type: 'CHANGE_VISIBILITY' })
+  hideSidebar = () => {
+    this.axiosGetPublishedPosts()
+  }
+
+  hideLegend = () => {
+    this.props.dispatch({ type: 'CHANGE_LEGEND_VISIBILITY' })
     this.axiosGetPublishedPosts()
   }
 
   async axiosGetPublishedPosts() {
+    console.log('clicked')
     await axios.get('/api/v1/posts').then(response => {
       this.setState({ posts: response.data })
     })
@@ -95,6 +100,16 @@ class Map extends Component {
     }
   }
 
+  hideElements = () => {
+    if (this.props.sidebarVisible) {
+      this.props.dispatch({ type: 'CHANGE_VISIBILITY' })
+      this.axiosGetPublishedPosts()
+    } else if (this.props.legendVisible) {
+      this.props.dispatch({ type: 'CHANGE_LEGEND_VISIBILITY' })
+      this.axiosGetPublishedPosts()
+    }
+  }
+
   render() {
 
     let createEntry
@@ -111,10 +126,7 @@ class Map extends Component {
     }
 
     return (
-
-      <div id='map'
-        onClick={this.props.sidebarVisible ? () => { this.combineFunctions() } : () => { this.axiosGetPublishedPosts() }}
-      >
+      <div id='map'>
 
         <Popup modal trigger={
           <Icon
@@ -134,13 +146,14 @@ class Map extends Component {
         <Popup
           open={this.state.openEntryPopup}
           closeOnDocumentClick={true}
-          onClose={this.closeModal}>
+          onClose={this.closeModal}
+          onClick={this.hideElements}>
 
           <div className="modal">
             <EntryPopup 
             id={this.state.id}
             datapointClass={this.state.datapointClass}
-             />
+          />
           </div>
         </Popup>
 
@@ -148,7 +161,9 @@ class Map extends Component {
           bootstrapURLKeys={{ key: process.env.REACT_APP_API_KEY_GOOGLE_MAPS }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
-          options={{ styles: MapStyle }}>
+          options={{ styles: MapStyle }}
+          onClick={this.hideElements}
+        >
 
           {this.state.published.map(post => (
             <Icon name='circle'
@@ -171,7 +186,8 @@ class Map extends Component {
 const mapStateToProps = state => ({
   state: state,
   currentUser: state.reduxTokenAuth.currentUser,
-  sidebarVisible: state.animation.sidebarVisible
+  sidebarVisible: state.animation.sidebarVisible,
+  legendVisible: state.animation.legendVisible
 })
 
 export default connect(mapStateToProps)(Map);
